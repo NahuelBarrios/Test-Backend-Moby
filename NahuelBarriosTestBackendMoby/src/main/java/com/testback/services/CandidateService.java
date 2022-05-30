@@ -47,5 +47,14 @@ public class CandidateService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public void deleteCandidate(Long id) throws CandidateNotFoundException{
+        Optional<Candidate> candidateOptional = candidateRepository.findById(id);
+        if(candidateOptional.isEmpty()){
+            throw new CandidateNotFoundException("Id no encontrado");
+        }
+        candidateRepository.delete(candidateOptional.get());
+    }
+
 
 }

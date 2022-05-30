@@ -37,4 +37,9 @@ public class CandidateResource implements CandidateController {
         return candidateService.findAll().stream()
                 .map(CandidateMapper::mapDomainToDto).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteCandidate(Long id) {
+        candidateService.deleteCandidate(id);
+    }
 }
