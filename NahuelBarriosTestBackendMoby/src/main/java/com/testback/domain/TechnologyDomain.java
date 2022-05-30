@@ -1,6 +1,5 @@
 package com.testback.domain;
 
-import javax.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
 
