@@ -5,7 +5,9 @@ import com.testback.exception.TechnologyNotFoundException;
 import com.testback.mapper.TechnologyMapper;
 import com.testback.models.entities.Technology;
 import com.testback.repository.TechnologyRepository;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.transaction.annotation.Transactional;
 
 public class TechnologyService {
@@ -30,5 +32,12 @@ public class TechnologyService {
         Technology technology = technologyOptional.get();
         technology.setTechnology(technologyDomain.getTechnology());
         return TechnologyMapper.mapModelToDomain(technologyRepository.save(technology));
+    }
+
+    @Transactional
+    public List<TechnologyDomain> findAll(){
+        List<Technology> technologies = technologyRepository.findAll();
+        return technologies.stream().map(TechnologyMapper::mapModelToDomain)
+                .collect(Collectors.toList());
     }
 }

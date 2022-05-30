@@ -6,6 +6,8 @@ import com.testback.mapper.TechnologyMapper;
 import com.testback.models.views.TechnologyDto;
 import com.testback.models.views.TechnologyDtoCreateUpdate;
 import com.testback.services.TechnologyService;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,5 +29,11 @@ public class TechnologyResource implements TechnologyController {
     public TechnologyDto updateTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate, Long id) {
         TechnologyDomain technologyDomain = TechnologyMapper.mapCreateUpdateToDomain(technologyDtoCreateUpdate);
         return TechnologyMapper.mapDomainToDto(technologyService.updateTechnology(technologyDomain,id));
+    }
+
+    @Override
+    public List<TechnologyDto> findAll() {
+        return technologyService.findAll().stream()
+                .map(TechnologyMapper::mapDomainToDto).collect(Collectors.toList());
     }
 }

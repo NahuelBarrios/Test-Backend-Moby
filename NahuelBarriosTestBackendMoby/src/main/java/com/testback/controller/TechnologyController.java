@@ -2,8 +2,10 @@ package com.testback.controller;
 
 import com.testback.models.views.TechnologyDto;
 import com.testback.models.views.TechnologyDtoCreateUpdate;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,4 +22,7 @@ public interface TechnologyController {
     @ResponseStatus(HttpStatus.OK)
     TechnologyDto updateTechnology(@Valid @RequestBody TechnologyDtoCreateUpdate technologyDtoCreateUpdate, @PathVariable Long id);
 
+    @GetMapping("/technology")
+    @ResponseStatus(HttpStatus.OK)
+    List<TechnologyDto> findAll();
 }
