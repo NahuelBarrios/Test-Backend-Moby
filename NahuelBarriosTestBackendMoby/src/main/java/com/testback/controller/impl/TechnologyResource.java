@@ -36,4 +36,9 @@ public class TechnologyResource implements TechnologyController {
         return technologyService.findAll().stream()
                 .map(TechnologyMapper::mapDomainToDto).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteTechnology(Long id) {
+        technologyService.deleteTechnology(id);
+    }
 }

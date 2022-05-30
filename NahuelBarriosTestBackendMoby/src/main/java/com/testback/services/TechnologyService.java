@@ -40,4 +40,11 @@ public class TechnologyService {
         return technologies.stream().map(TechnologyMapper::mapModelToDomain)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void deleteTechnology(Long id) throws TechnologyNotFoundException{
+        Optional<Technology> technologyOptional = Optional.ofNullable(technologyRepository.findById(id)
+                .orElseThrow(() -> new TechnologyNotFoundException("No se encontro el Id")));
+        technologyRepository.delete(technologyOptional.get());
+    }
 }
