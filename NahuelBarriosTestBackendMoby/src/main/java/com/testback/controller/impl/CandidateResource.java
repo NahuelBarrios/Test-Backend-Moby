@@ -5,6 +5,7 @@ import com.testback.domain.CandidateDomain;
 import com.testback.mapper.CandidateMapper;
 import com.testback.models.views.CandidateDto;
 import com.testback.models.views.CandidateDtoCreate;
+import com.testback.models.views.CandidateDtoUpdate;
 import com.testback.services.CandidateService;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +22,11 @@ public class CandidateResource implements CandidateController {
     public CandidateDto createCandidate(CandidateDtoCreate candidateDtoCreate) {
         CandidateDomain candidateDomain = CandidateMapper.mapCreateToDomain(candidateDtoCreate);
         return CandidateMapper.mapDomainToDto(candidateService.createCandidate(candidateDomain));
+    }
+
+    @Override
+    public CandidateDto updateCandidate(CandidateDtoUpdate candidateDtoUpdate, Long id) {
+        CandidateDomain candidateDomain = CandidateMapper.mapUpdateToDomain(candidateDtoUpdate);
+        return CandidateMapper.mapDomainToDto(candidateService.updateCandidate(id,candidateDomain));
     }
 }

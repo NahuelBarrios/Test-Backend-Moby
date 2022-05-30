@@ -4,6 +4,7 @@ import com.testback.domain.CandidateDomain;
 import com.testback.models.entities.Candidate;
 import com.testback.models.views.CandidateDto;
 import com.testback.models.views.CandidateDtoCreate;
+import com.testback.models.views.CandidateDtoUpdate;
 
 public class CandidateMapper {
 
@@ -44,5 +45,14 @@ public class CandidateMapper {
                 .dniType(candidateDomain.getDniType())
                 .dni(candidateDomain.getDni())
                 .birthDate(candidateDomain.getBirthDate()).build();
+    }
+
+    public static CandidateDomain mapUpdateToDomain(CandidateDtoUpdate candidateDtoUpdate) {
+        return CandidateDomain.builder()
+                .name(candidateDtoUpdate.getName())
+                .lastName(candidateDtoUpdate.getLastName())
+                .dniType(candidateDtoUpdate.getDniType())
+                .dni(candidateDtoUpdate.getDni())
+                .birthDate(candidateDtoUpdate.getBirthDate()).build();
     }
 }
