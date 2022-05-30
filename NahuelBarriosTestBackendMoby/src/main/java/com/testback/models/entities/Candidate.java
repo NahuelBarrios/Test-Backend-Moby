@@ -1,7 +1,7 @@
 package com.testback.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.testback.models.enums.DniType;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -27,15 +27,15 @@ public class Candidate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_candidatos")
     private Long id;
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false)
     private String name;
-    @Column(name = "apellido")
+    @Column(name = "apellido", nullable = false)
     private String lastName;
-    @Column(name = "tipo_dni")
-    private String dniType;
-    @Column(name = "numero_dni")
+    @Column(name = "tipo_dni", nullable = false)
+    private DniType dniType;
+    @Column(name = "numero_dni", nullable = false)
     private String dni;
-    @Column(name = "fecha_nacimiento")
+    @Column(name = "fecha_nacimiento", nullable = false)
     private Date birthDate;
     @OneToMany(mappedBy = "candidate")
     @JsonBackReference

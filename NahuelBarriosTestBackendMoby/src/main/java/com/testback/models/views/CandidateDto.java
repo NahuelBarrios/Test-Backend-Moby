@@ -1,5 +1,6 @@
 package com.testback.models.views;
 
+import com.testback.models.enums.DniType;
 import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +11,7 @@ public class CandidateDto {
     private Long id;
     private String name;
     private String lastName;
-    private String dniType;
+    private DniType dniType;
     private String dni;
     private Date birthDate;
 }

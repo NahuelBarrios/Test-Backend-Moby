@@ -1,6 +1,5 @@
 package com.testback.models.views;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.testback.models.entities.Candidate;
 import com.testback.models.entities.Technology;
 import lombok.AllArgsConstructor;

@@ -1,5 +1,6 @@
 package com.testback.models.views;
 
+import com.testback.models.enums.DniType;
 import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,7 +18,7 @@ public class CandidateDtoUpdate {
     private String lastName;
     @NotNull
     @NotBlank
-    private String dniType;
+    private DniType dniType;
     @NotNull
     @NotBlank
     private String dni;

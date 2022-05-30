@@ -1,5 +1,6 @@
 package com.testback.controller;
 
+import com.testback.exception.CandidateNotFoundException;
 import com.testback.models.views.CandidateDto;
 import com.testback.models.views.CandidateDtoCreate;
 import com.testback.models.views.CandidateDtoUpdate;
@@ -22,7 +23,7 @@ public interface CandidateController {
 
     @PutMapping("/candidate/{id}")
     @ResponseStatus(HttpStatus.OK)
-    CandidateDto updateCandidate(@Valid @RequestBody CandidateDtoUpdate candidateDtoUpdate, @PathVariable Long id);
+    CandidateDto updateCandidate(@Valid @RequestBody CandidateDtoUpdate candidateDtoUpdate, @PathVariable Long id) throws CandidateNotFoundException;
 
     @GetMapping("/candidate")
     @ResponseStatus(HttpStatus.OK)
@@ -30,5 +31,5 @@ public interface CandidateController {
 
     @DeleteMapping("/candidate/{id}")
     @ResponseStatus(HttpStatus.OK)
-    void deleteCandidate(@PathVariable Long id);
+    void deleteCandidate(@PathVariable Long id) throws CandidateNotFoundException;
 }
