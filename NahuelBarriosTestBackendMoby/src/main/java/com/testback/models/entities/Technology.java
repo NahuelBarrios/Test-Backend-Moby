@@ -1,5 +1,6 @@
 package com.testback.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,5 +28,6 @@ public class Technology {
     @Column(name = "tecnologia")
     private String technology;
     @OneToMany(mappedBy = "technology")
+    @JsonBackReference
     private List<CandidateByTechnology> candidateByTechnologies;
 }
