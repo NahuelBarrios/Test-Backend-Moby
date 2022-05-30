@@ -1,7 +1,9 @@
 package com.testback.config;
 
 import com.testback.repository.CandidateRepository;
+import com.testback.repository.TechnologyRepository;
 import com.testback.services.CandidateService;
+import com.testback.services.TechnologyService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,4 +15,8 @@ public class AppConfig {
         return new CandidateService(candidateRepository);
     }
 
+    @Bean
+    TechnologyService technologyService(TechnologyRepository technologyRepository){
+        return new TechnologyService(technologyRepository);
+    }
 }
