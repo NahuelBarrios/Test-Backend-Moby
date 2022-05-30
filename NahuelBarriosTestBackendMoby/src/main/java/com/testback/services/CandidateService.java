@@ -27,10 +27,8 @@ public class CandidateService {
 
     @Transactional
     public CandidateDomain updateCandidate(Long id,CandidateDomain candidateDomain) throws CandidateNotFoundException{
-        Optional<Candidate> candidateOptional = candidateRepository.findById(id);
-        if(candidateOptional.isEmpty()){
-            throw new CandidateNotFoundException("Id no encontrado");
-        }
+        Optional<Candidate> candidateOptional = Optional.ofNullable(candidateRepository.findById(id)
+                .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id")));
         Candidate candidate = candidateOptional.get();
         candidate.setName(candidateDomain.getName());
         candidate.setLastName(candidateDomain.getLastName());
@@ -49,10 +47,8 @@ public class CandidateService {
 
     @Transactional
     public void deleteCandidate(Long id) throws CandidateNotFoundException{
-        Optional<Candidate> candidateOptional = candidateRepository.findById(id);
-        if(candidateOptional.isEmpty()){
-            throw new CandidateNotFoundException("Id no encontrado");
-        }
+        Optional<Candidate> candidateOptional = Optional.ofNullable(candidateRepository.findById(id)
+                .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id")));
         candidateRepository.delete(candidateOptional.get());
     }
 
