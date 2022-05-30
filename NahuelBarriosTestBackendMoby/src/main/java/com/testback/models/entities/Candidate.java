@@ -1,5 +1,7 @@
 package com.testback.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -36,5 +38,6 @@ public class Candidate {
     @Column(name = "fecha_nacimiento")
     private Date birthDate;
     @OneToMany(mappedBy = "candidate")
+    @JsonBackReference
     private List<CandidateByTechnology> candidateByTechnologies;
 }
