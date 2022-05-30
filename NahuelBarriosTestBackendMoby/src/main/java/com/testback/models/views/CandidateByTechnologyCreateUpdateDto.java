@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CandidateByTechnologyCreateDto {
+public class CandidateByTechnologyCreateUpdateDto {
     private Long candidateId;
     private Long technologyId;
     private String experience;

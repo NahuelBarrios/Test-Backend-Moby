@@ -1,5 +1,6 @@
 package com.testback.exception.handler;
 
+import com.testback.exception.CandidateByTechnologyNotFoundException;
 import com.testback.exception.CandidateNotFoundException;
 import com.testback.exception.TechnologyNotFoundException;
 import com.testback.message.ResponseMessage;
@@ -21,6 +22,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TechnologyNotFoundException.class)
     public ResponseEntity<ResponseMessage> technologyNotFoundException(TechnologyNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ResponseMessage.builder()
+                        .message(exception.getMessage()).build());
+    }
+
+    @ExceptionHandler(CandidateByTechnologyNotFoundException.class)
+    public ResponseEntity<ResponseMessage> candidateByTechnologyNotFoundException(CandidateByTechnologyNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ResponseMessage.builder()
                         .message(exception.getMessage()).build());
