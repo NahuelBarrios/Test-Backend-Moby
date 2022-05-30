@@ -5,7 +5,9 @@ import com.testback.exception.CandidateNotFoundException;
 import com.testback.mapper.CandidateMapper;
 import com.testback.models.entities.Candidate;
 import com.testback.repository.CandidateRepository;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.transaction.annotation.Transactional;
 
 public class CandidateService {
@@ -36,7 +38,14 @@ public class CandidateService {
         candidate.setDni(candidateDomain.getDni());
         candidate.setBirthDate(candidateDomain.getBirthDate());
         return CandidateMapper.mapModelToDomain(candidateRepository.save(candidate));
-
     }
+
+    @Transactional
+    public List<CandidateDomain> findAll(){
+        List<Candidate> candidates = candidateRepository.findAll();
+        return candidates.stream().map(CandidateMapper::mapModelToDomain)
+                .collect(Collectors.toList());
+    }
+
 
 }

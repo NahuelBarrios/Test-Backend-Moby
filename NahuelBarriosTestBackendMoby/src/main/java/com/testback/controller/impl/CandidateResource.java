@@ -7,6 +7,8 @@ import com.testback.models.views.CandidateDto;
 import com.testback.models.views.CandidateDtoCreate;
 import com.testback.models.views.CandidateDtoUpdate;
 import com.testback.services.CandidateService;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,5 +30,11 @@ public class CandidateResource implements CandidateController {
     public CandidateDto updateCandidate(CandidateDtoUpdate candidateDtoUpdate, Long id) {
         CandidateDomain candidateDomain = CandidateMapper.mapUpdateToDomain(candidateDtoUpdate);
         return CandidateMapper.mapDomainToDto(candidateService.updateCandidate(id,candidateDomain));
+    }
+
+    @Override
+    public List<CandidateDto> findAll() {
+        return candidateService.findAll().stream()
+                .map(CandidateMapper::mapDomainToDto).collect(Collectors.toList());
     }
 }
