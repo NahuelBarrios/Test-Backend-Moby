@@ -25,7 +25,7 @@ public class Technology {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tecnologias")
     private Long id;
-    @Column(name = "tecnologia")
+    @Column(name = "tecnologia", nullable = false)
     private String technology;
     @OneToMany(mappedBy = "technology")
     @JsonBackReference

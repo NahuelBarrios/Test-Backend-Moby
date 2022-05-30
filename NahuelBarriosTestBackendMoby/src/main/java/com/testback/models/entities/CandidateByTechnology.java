@@ -26,11 +26,11 @@ public class CandidateByTechnology {
     @Column(name = "id_candidate_technology")
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "id_candidato")
+    @JoinColumn(name = "id_candidato", nullable = false)
     private Candidate candidate;
     @ManyToOne
-    @JoinColumn(name = "id_tecnologia")
+    @JoinColumn(name = "id_tecnologia", nullable = false)
     private Technology technology;
-    @Column(name = "experiencia")
+    @Column(name = "experiencia", nullable = false)
     private String experience;
 }
