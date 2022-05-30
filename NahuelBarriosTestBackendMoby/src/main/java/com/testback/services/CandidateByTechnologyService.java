@@ -5,6 +5,7 @@ import com.testback.exception.CandidateByTechnologyNotFoundException;
 import com.testback.exception.CandidateNotFoundException;
 import com.testback.exception.TechnologyNotFoundException;
 import com.testback.mapper.CandidateByTechnologyMapper;
+import com.testback.mapper.CandidateMapper;
 import com.testback.models.entities.Candidate;
 import com.testback.models.entities.CandidateByTechnology;
 import com.testback.models.entities.Technology;
@@ -12,7 +13,9 @@ import com.testback.models.views.CandidateByTechnologyCreateUpdateDto;
 import com.testback.repository.CandidateByTechnologyRepository;
 import com.testback.repository.CandidateRepository;
 import com.testback.repository.TechnologyRepository;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.transaction.annotation.Transactional;
 
 public class CandidateByTechnologyService {
@@ -37,6 +40,7 @@ public class CandidateByTechnologyService {
         return CandidateByTechnologyMapper.mapModelToDomain(candidateByTechnologyRepository.save(candidateByTechnology));
     }
 
+    @Transactional
     public CandidateByTechnologyDomain updateCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto,
                                                                    Long id) throws CandidateNotFoundException, TechnologyNotFoundException{
         Optional<CandidateByTechnology> optionalCandidateByTechnology = getOptionalCandidateByTechnology(id);
@@ -49,18 +53,24 @@ public class CandidateByTechnologyService {
     return CandidateByTechnologyMapper.mapModelToDomain(candidateByTechnologyRepository.save(candidateByTechnology));
     }
 
+    @Transactional
+    public List<CandidateByTechnologyDomain> findAll(){
+        List<CandidateByTechnology> candidateByTechnologies = candidateByTechnologyRepository.findAll();
+        return candidateByTechnologies.stream().map(CandidateByTechnologyMapper::mapModelToDomain)
+                .collect(Collectors.toList());
+    }
 
-    public Optional<Candidate> getOptionalCandidate(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto) throws CandidateNotFoundException{
+    private Optional<Candidate> getOptionalCandidate(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto) throws CandidateNotFoundException{
         return Optional.ofNullable(candidateRepository.findById(candidateByTechnologyCreateUpdateDto.getCandidateId())
                 .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id del candidato")));
     }
 
-    public Optional<Technology> getOptionalTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto) throws TechnologyNotFoundException{
+    private Optional<Technology> getOptionalTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto) throws TechnologyNotFoundException{
         return Optional.ofNullable(technologyRepository.findById(candidateByTechnologyCreateUpdateDto.getTechnologyId())
                 .orElseThrow(() -> new TechnologyNotFoundException("No se encontro el Id de la tecnologia")));
     }
 
-    public Optional<CandidateByTechnology> getOptionalCandidateByTechnology(Long id) throws CandidateByTechnologyNotFoundException{
+    private Optional<CandidateByTechnology> getOptionalCandidateByTechnology(Long id) throws CandidateByTechnologyNotFoundException{
         return Optional.ofNullable(candidateByTechnologyRepository.findById(id)
                 .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id del candidato x tecnologia")));
     }

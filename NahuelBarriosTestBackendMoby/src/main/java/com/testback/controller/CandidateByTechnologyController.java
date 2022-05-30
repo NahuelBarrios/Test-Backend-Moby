@@ -2,8 +2,10 @@ package com.testback.controller;
 
 import com.testback.models.views.CandidateByTechnologyCreateUpdateDto;
 import com.testback.models.views.CandidateByTechnologyDto;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,5 +22,9 @@ public interface CandidateByTechnologyController {
     @ResponseStatus(HttpStatus.OK)
     CandidateByTechnologyDto updateCandidateByTechnology(@Valid @RequestBody CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto,
                                                          @PathVariable Long id);
+
+    @GetMapping("/candidatebytechnology")
+    @ResponseStatus(HttpStatus.OK)
+    List<CandidateByTechnologyDto> findAll();
 
 }
