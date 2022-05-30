@@ -33,4 +33,9 @@ public class CandidateByTechnologyResource implements CandidateByTechnologyContr
         return candidateByTechnologyService.findAll().stream().map(CandidateByTechnologyMapper::mapDomainToDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteCandidateByTechnology(Long id) {
+        candidateByTechnologyService.deleteCandidateByTechnology(id);
+    }
 }

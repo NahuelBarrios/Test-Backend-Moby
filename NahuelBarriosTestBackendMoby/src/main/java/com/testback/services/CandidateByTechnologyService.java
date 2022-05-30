@@ -60,6 +60,12 @@ public class CandidateByTechnologyService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public void deleteCandidateByTechnology(Long id) throws CandidateByTechnologyNotFoundException{
+        Optional<CandidateByTechnology> candidateByTechnologyOptional = getOptionalCandidateByTechnology(id);
+        candidateByTechnologyRepository.delete(candidateByTechnologyOptional.get());
+    }
+
     private Optional<Candidate> getOptionalCandidate(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto) throws CandidateNotFoundException{
         return Optional.ofNullable(candidateRepository.findById(candidateByTechnologyCreateUpdateDto.getCandidateId())
                 .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id del candidato")));
