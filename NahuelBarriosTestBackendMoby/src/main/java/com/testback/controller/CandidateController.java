@@ -2,8 +2,7 @@ package com.testback.controller;
 
 import com.testback.exception.CandidateNotFoundException;
 import com.testback.models.views.CandidateDto;
-import com.testback.models.views.CandidateDtoCreate;
-import com.testback.models.views.CandidateDtoUpdate;
+import com.testback.models.views.CandidateDtoCreateUpdate;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,11 +18,11 @@ public interface CandidateController {
 
     @PostMapping("/candidate")
     @ResponseStatus(HttpStatus.CREATED)
-    CandidateDto createCandidate(@Valid @RequestBody CandidateDtoCreate candidateDtoCreate);
+    CandidateDto createCandidate(@Valid @RequestBody CandidateDtoCreateUpdate candidateDtoCreateUpdate);
 
     @PutMapping("/candidate/{id}")
     @ResponseStatus(HttpStatus.OK)
-    CandidateDto updateCandidate(@Valid @RequestBody CandidateDtoUpdate candidateDtoUpdate, @PathVariable Long id) throws CandidateNotFoundException;
+    CandidateDto updateCandidate(@Valid @RequestBody CandidateDtoCreateUpdate candidateDtoCreateUpdate, @PathVariable Long id) throws CandidateNotFoundException;
 
     @GetMapping("/candidate")
     @ResponseStatus(HttpStatus.OK)

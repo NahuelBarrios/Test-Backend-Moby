@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,17 +29,23 @@ public class Candidate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_candidatos")
     private Long id;
+
     @Column(name = "nombre", nullable = false)
     private String name;
+
     @Column(name = "apellido", nullable = false)
     private String lastName;
+
     @Column(name = "tipo_dni", nullable = false)
     private DniType dniType;
+
     @Column(name = "numero_dni", nullable = false)
     private String dni;
+
     @Column(name = "fecha_nacimiento", nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birthDate;
+
     @OneToMany(mappedBy = "candidate")
     @JsonBackReference
     private List<CandidateByTechnology> candidateByTechnologies;

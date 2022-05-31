@@ -4,8 +4,7 @@ import com.testback.controller.CandidateController;
 import com.testback.domain.CandidateDomain;
 import com.testback.mapper.CandidateMapper;
 import com.testback.models.views.CandidateDto;
-import com.testback.models.views.CandidateDtoCreate;
-import com.testback.models.views.CandidateDtoUpdate;
+import com.testback.models.views.CandidateDtoCreateUpdate;
 import com.testback.services.CandidateService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,14 +20,14 @@ public class CandidateResource implements CandidateController {
     }
 
     @Override
-    public CandidateDto createCandidate(CandidateDtoCreate candidateDtoCreate) {
-        CandidateDomain candidateDomain = CandidateMapper.mapCreateToDomain(candidateDtoCreate);
+    public CandidateDto createCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate) {
+        CandidateDomain candidateDomain = CandidateMapper.mapCreateUpdateToDomain(candidateDtoCreateUpdate);
         return CandidateMapper.mapDomainToDto(candidateService.createCandidate(candidateDomain));
     }
 
     @Override
-    public CandidateDto updateCandidate(CandidateDtoUpdate candidateDtoUpdate, Long id) {
-        CandidateDomain candidateDomain = CandidateMapper.mapUpdateToDomain(candidateDtoUpdate);
+    public CandidateDto updateCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate, Long id) {
+        CandidateDomain candidateDomain = CandidateMapper.mapCreateUpdateToDomain(candidateDtoCreateUpdate);
         return CandidateMapper.mapDomainToDto(candidateService.updateCandidate(id,candidateDomain));
     }
 

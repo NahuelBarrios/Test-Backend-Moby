@@ -3,8 +3,7 @@ package com.testback.mapper;
 import com.testback.domain.CandidateDomain;
 import com.testback.models.entities.Candidate;
 import com.testback.models.views.CandidateDto;
-import com.testback.models.views.CandidateDtoCreate;
-import com.testback.models.views.CandidateDtoUpdate;
+import com.testback.models.views.CandidateDtoCreateUpdate;
 
 public class CandidateMapper {
 
@@ -28,13 +27,13 @@ public class CandidateMapper {
                 .birthDate(candidate.getBirthDate()).build();
     }
 
-    public static CandidateDomain mapCreateToDomain(CandidateDtoCreate candidateDtoCreate){
+    public static CandidateDomain mapCreateUpdateToDomain(CandidateDtoCreateUpdate candidateDtoCreateUpdate){
         return CandidateDomain.builder()
-                .name(candidateDtoCreate.getName())
-                .lastName(candidateDtoCreate.getLastName())
-                .dniType(candidateDtoCreate.getDniType())
-                .dni(candidateDtoCreate.getDni())
-                .birthDate(candidateDtoCreate.getBirthDate()).build();
+                .name(candidateDtoCreateUpdate.getName())
+                .lastName(candidateDtoCreateUpdate.getLastName())
+                .dniType(candidateDtoCreateUpdate.getDniType())
+                .dni(candidateDtoCreateUpdate.getDni())
+                .birthDate(candidateDtoCreateUpdate.getBirthDate()).build();
     }
 
     public static CandidateDto mapDomainToDto(CandidateDomain candidateDomain){
@@ -47,12 +46,4 @@ public class CandidateMapper {
                 .birthDate(candidateDomain.getBirthDate()).build();
     }
 
-    public static CandidateDomain mapUpdateToDomain(CandidateDtoUpdate candidateDtoUpdate) {
-        return CandidateDomain.builder()
-                .name(candidateDtoUpdate.getName())
-                .lastName(candidateDtoUpdate.getLastName())
-                .dniType(candidateDtoUpdate.getDniType())
-                .dni(candidateDtoUpdate.getDni())
-                .birthDate(candidateDtoUpdate.getBirthDate()).build();
-    }
 }
