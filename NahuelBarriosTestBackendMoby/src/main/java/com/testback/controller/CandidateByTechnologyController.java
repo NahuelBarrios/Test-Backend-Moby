@@ -1,5 +1,8 @@
 package com.testback.controller;
 
+import com.testback.exception.CandidateByTechnologyNotFoundException;
+import com.testback.exception.CandidateNotFoundException;
+import com.testback.exception.TechnologyNotFoundException;
 import com.testback.models.views.CandidateByTechnologyCreateUpdateDto;
 import com.testback.models.views.CandidateByTechnologyDto;
 import java.util.List;
@@ -22,7 +25,8 @@ public interface CandidateByTechnologyController {
     @PutMapping("/candidatebytechnology/{id}")
     @ResponseStatus(HttpStatus.OK)
     CandidateByTechnologyDto updateCandidateByTechnology(@Valid @RequestBody CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto,
-                                                         @PathVariable Long id);
+                                                         @PathVariable Long id) throws CandidateNotFoundException, TechnologyNotFoundException,
+                                                                                        CandidateByTechnologyNotFoundException;
 
     @GetMapping("/candidatebytechnology")
     @ResponseStatus(HttpStatus.OK)
@@ -30,6 +34,6 @@ public interface CandidateByTechnologyController {
 
     @DeleteMapping("/candidatebytechnology/{id}")
     @ResponseStatus(HttpStatus.OK)
-    void deleteCandidateByTechnology(@PathVariable Long id);
+    void deleteCandidateByTechnology(@PathVariable Long id) throws CandidateByTechnologyNotFoundException;
 
 }

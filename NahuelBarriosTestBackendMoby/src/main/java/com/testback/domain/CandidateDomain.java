@@ -1,6 +1,7 @@
 package com.testback.domain;
 
-import java.util.Date;
+import com.testback.models.enums.DniType;
+import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ public class CandidateDomain {
     private Long id;
     private String name;
     private String lastName;
-    private String dniType;
+    private DniType dniType;
     private String dni;
-    private Date birthDate;
+    private LocalDate birthDate;
 }

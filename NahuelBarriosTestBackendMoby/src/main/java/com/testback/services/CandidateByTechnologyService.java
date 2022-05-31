@@ -5,7 +5,6 @@ import com.testback.exception.CandidateByTechnologyNotFoundException;
 import com.testback.exception.CandidateNotFoundException;
 import com.testback.exception.TechnologyNotFoundException;
 import com.testback.mapper.CandidateByTechnologyMapper;
-import com.testback.mapper.CandidateMapper;
 import com.testback.models.entities.Candidate;
 import com.testback.models.entities.CandidateByTechnology;
 import com.testback.models.entities.Technology;
@@ -42,7 +41,8 @@ public class CandidateByTechnologyService {
 
     @Transactional
     public CandidateByTechnologyDomain updateCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto,
-                                                                   Long id) throws CandidateNotFoundException, TechnologyNotFoundException{
+                                                                   Long id) throws CandidateNotFoundException, TechnologyNotFoundException,
+                                                                                    CandidateByTechnologyNotFoundException{
         Optional<CandidateByTechnology> optionalCandidateByTechnology = getOptionalCandidateByTechnology(id);
         Optional<Candidate> optionalCandidate = getOptionalCandidate(candidateByTechnologyCreateUpdateDto);
         Optional<Technology> optionalTechnology = getOptionalTechnology(candidateByTechnologyCreateUpdateDto);
