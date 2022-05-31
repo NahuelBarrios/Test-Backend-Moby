@@ -1,8 +1,9 @@
 package com.testback.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.testback.models.enums.DniType;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,7 +37,8 @@ public class Candidate {
     @Column(name = "numero_dni", nullable = false)
     private String dni;
     @Column(name = "fecha_nacimiento", nullable = false)
-    private Date birthDate;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate birthDate;
     @OneToMany(mappedBy = "candidate")
     @JsonBackReference
     private List<CandidateByTechnology> candidateByTechnologies;
