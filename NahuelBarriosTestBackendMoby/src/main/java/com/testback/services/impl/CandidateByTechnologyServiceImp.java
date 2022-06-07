@@ -18,22 +18,23 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.testback.services.CandidateByTechnologyService;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@Service
 public class CandidateByTechnologyServiceImp implements CandidateByTechnologyService {
+    @Autowired
+    CandidateByTechnologyRepository candidateByTechnologyRepository;
+    @Autowired
+    CandidateRepository candidateRepository;
+    @Autowired
+    TechnologyRepository technologyRepository;
 
-    private final CandidateByTechnologyRepository candidateByTechnologyRepository;
-    private final CandidateRepository candidateRepository;
-    private final TechnologyRepository technologyRepository;
-
-    public CandidateByTechnologyServiceImp(CandidateByTechnologyRepository candidateByTechnologyRepository,
-                                           CandidateRepository candidateRepository, TechnologyRepository technologyRepository) {
-        this.candidateByTechnologyRepository = candidateByTechnologyRepository;
-        this.candidateRepository = candidateRepository;
-        this.technologyRepository = technologyRepository;
-    }
 
     @Override
+    @Transactional
     public CandidateByTechnologyDomain createCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto)
             throws CandidateNotFoundException, TechnologyNotFoundException, CandidateByTechnologyNotFoundException {
         Optional<Candidate> optionalCandidate = getOptionalCandidate(candidateByTechnologyCreateUpdateDto);
@@ -43,6 +44,7 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
     }
 
     @Override
+    @Transactional
     public CandidateByTechnologyDomain updateCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto,
                                                                    Long id) throws CandidateNotFoundException, TechnologyNotFoundException,
             CandidateByTechnologyNotFoundException {
@@ -57,6 +59,7 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
     }
 
     @Override
+    @Transactional
     public List<CandidateByTechnologyDomain> findAll() {
         List<CandidateByTechnology> candidateByTechnologies = candidateByTechnologyRepository.findAll();
         return candidateByTechnologies.stream().map(CandidateByTechnologyMapper::mapModelToDomain)
@@ -64,6 +67,7 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
     }
 
     @Override
+    @Transactional
     public void deleteCandidateByTechnology(Long id) throws CandidateByTechnologyNotFoundException {
         Optional<CandidateByTechnology> candidateByTechnologyOptional = getOptionalCandidateByTechnology(id);
         candidateByTechnologyRepository.delete(candidateByTechnologyOptional.get());

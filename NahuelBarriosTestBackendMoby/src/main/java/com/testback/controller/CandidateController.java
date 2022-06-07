@@ -8,24 +8,21 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/candidate")
 public interface CandidateController {
 
     @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    CandidateDto createCandidate(@Valid @RequestBody CandidateDtoCreateUpdate candidateDtoCreateUpdate);
+    ResponseEntity<CandidateDto> createCandidate(@Valid @RequestBody CandidateDtoCreateUpdate candidateDtoCreateUpdate);
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    CandidateDto updateCandidate(@Valid @RequestBody CandidateDtoCreateUpdate candidateDtoCreateUpdate, @PathVariable Long id) throws CandidateNotFoundException;
+    ResponseEntity<CandidateDto> updateCandidate(@Valid @RequestBody CandidateDtoCreateUpdate candidateDtoCreateUpdate, @PathVariable Long id) throws CandidateNotFoundException;
 
-    @GetMapping("/")
-    @ResponseStatus(HttpStatus.OK)
-    List<CandidateDto> findAll();
+    @GetMapping()
+    ResponseEntity<List<CandidateDto>> findAll();
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    void deleteCandidate(@PathVariable Long id) throws CandidateNotFoundException;
+    ResponseEntity<HttpStatus> deleteCandidate(@PathVariable Long id) throws CandidateNotFoundException;
 }

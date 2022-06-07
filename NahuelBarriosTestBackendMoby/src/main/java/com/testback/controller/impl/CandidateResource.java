@@ -10,37 +10,40 @@ import com.testback.services.impl.CandidateServiceImp;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CandidateResource implements CandidateController {
-
-    private final CandidateServiceImp candidateServiceImp;
-
-    public CandidateResource(CandidateServiceImp candidateServiceImp) {
-        this.candidateServiceImp = candidateServiceImp;
-    }
+    @Autowired
+    CandidateServiceImp candidateServiceImp;
 
     @Override
-    public CandidateDto createCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate) {
+    public ResponseEntity<CandidateDto> createCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate) {
         CandidateDomain candidateDomain = CandidateMapper.mapCreateUpdateToDomain(candidateDtoCreateUpdate);
-        return CandidateMapper.mapDomainToDto(candidateServiceImp.createCandidate(candidateDomain));
+        CandidateDto candidateDto = CandidateMapper.mapDomainToDto(candidateServiceImp.createCandidate(candidateDomain));
+        return new ResponseEntity<>(candidateDto, HttpStatus.CREATED);
     }
 
     @Override
-    public CandidateDto updateCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate, Long id) {
+    public ResponseEntity<CandidateDto> updateCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate, Long id) {
         CandidateDomain candidateDomain = CandidateMapper.mapCreateUpdateToDomain(candidateDtoCreateUpdate);
-        return CandidateMapper.mapDomainToDto(candidateServiceImp.updateCandidate(id, candidateDomain));
+        CandidateDto candidateDto = CandidateMapper.mapDomainToDto(candidateServiceImp.updateCandidate(id, candidateDomain));
+        return new ResponseEntity<>(candidateDto, HttpStatus.OK);
     }
 
     @Override
-    public List<CandidateDto> findAll() {
-        return candidateServiceImp.findAll().stream()
+    public ResponseEntity<List<CandidateDto>> findAll() {
+        var candidates = candidateServiceImp.findAll().stream()
                 .map(CandidateMapper::mapDomainToDto).collect(Collectors.toList());
+        return new ResponseEntity<>(candidates, HttpStatus.OK);
     }
 
     @Override
-    public void deleteCandidate(Long id) {
+    public ResponseEntity<HttpStatus> deleteCandidate(Long id) {
         candidateServiceImp.deleteCandidate(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

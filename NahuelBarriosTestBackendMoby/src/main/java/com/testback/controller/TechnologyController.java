@@ -8,24 +8,21 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/technology")
 public interface TechnologyController {
 
     @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    TechnologyDto createTechnology(@Valid @RequestBody TechnologyDtoCreateUpdate technologyDtoCreateUpdate);
+    ResponseEntity<TechnologyDto> createTechnology(@Valid @RequestBody TechnologyDtoCreateUpdate technologyDtoCreateUpdate);
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    TechnologyDto updateTechnology(@Valid @RequestBody TechnologyDtoCreateUpdate technologyDtoCreateUpdate, @PathVariable Long id) throws TechnologyNotFoundException;
+    ResponseEntity<TechnologyDto> updateTechnology(@Valid @RequestBody TechnologyDtoCreateUpdate technologyDtoCreateUpdate, @PathVariable Long id) throws TechnologyNotFoundException;
 
-    @GetMapping("/")
-    @ResponseStatus(HttpStatus.OK)
-    List<TechnologyDto> findAll();
+    @GetMapping()
+    ResponseEntity<List<TechnologyDto>> findAll();
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    void deleteTechnology(@PathVariable Long id) throws TechnologyNotFoundException;
+    ResponseEntity<HttpStatus> deleteTechnology(@PathVariable Long id) throws TechnologyNotFoundException;
 }

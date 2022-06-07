@@ -11,17 +11,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.testback.services.CandidateService;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@Service
 public class CandidateServiceImp implements CandidateService {
 
-    private final CandidateRepository candidateRepository;
-
-    public CandidateServiceImp(CandidateRepository candidateRepository) {
-        this.candidateRepository = candidateRepository;
-    }
+    @Autowired
+    CandidateRepository candidateRepository;
 
     @Override
+    @Transactional
     public CandidateDomain createCandidate(CandidateDomain candidateDomain) {
         Candidate candidate = CandidateMapper.mapDomainToModel(candidateDomain);
         candidateRepository.save(candidate);
@@ -29,6 +31,7 @@ public class CandidateServiceImp implements CandidateService {
     }
 
     @Override
+    @Transactional
     public CandidateDomain updateCandidate(Long id, CandidateDomain candidateDomain) throws CandidateNotFoundException {
         Optional<Candidate> candidateOptional = Optional.ofNullable(candidateRepository.findById(id)
                 .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id")));
@@ -42,6 +45,7 @@ public class CandidateServiceImp implements CandidateService {
     }
 
     @Override
+    @Transactional
     public List<CandidateDomain> findAll() {
         List<Candidate> candidates = candidateRepository.findAll();
         return candidates.stream().map(CandidateMapper::mapModelToDomain)
@@ -49,6 +53,7 @@ public class CandidateServiceImp implements CandidateService {
     }
 
     @Override
+    @Transactional
     public void deleteCandidate(Long id) throws CandidateNotFoundException {
         Optional<Candidate> candidateOptional = Optional.ofNullable(candidateRepository.findById(id)
                 .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id")));

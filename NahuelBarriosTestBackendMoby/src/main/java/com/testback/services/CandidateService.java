@@ -8,15 +8,11 @@ import java.util.List;
 
 public interface CandidateService {
 
-    @Transactional
     CandidateDomain createCandidate(CandidateDomain candidateDomain);
 
-    @Transactional
     CandidateDomain updateCandidate(Long id,CandidateDomain candidateDomain) throws CandidateNotFoundException;
 
-    @Transactional
     List<CandidateDomain> findAll();
 
-    @Transactional
     void deleteCandidate(Long id) throws CandidateNotFoundException;
 }

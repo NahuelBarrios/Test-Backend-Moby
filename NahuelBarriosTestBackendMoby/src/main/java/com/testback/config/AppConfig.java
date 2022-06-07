@@ -11,21 +11,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
-
-    @Bean
-    CandidateServiceImp candidateService(CandidateRepository candidateRepository) {
-        return new CandidateServiceImp(candidateRepository);
-    }
-
-    @Bean
-    TechnologyServiceImp technologyService(TechnologyRepository technologyRepository) {
-        return new TechnologyServiceImp(technologyRepository);
-    }
-
-    @Bean
-    CandidateByTechnologyServiceImp candidateByTechnologyService(CandidateByTechnologyRepository candidateByTechnologyRepository,
-                                                                 CandidateRepository candidateRepository,
-                                                                 TechnologyRepository technologyRepository) {
-        return new CandidateByTechnologyServiceImp(candidateByTechnologyRepository, candidateRepository, technologyRepository);
-    }
+    
 }

@@ -11,17 +11,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.testback.services.TechnologyService;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@Service
 public class TechnologyServiceImp implements TechnologyService {
-
-    private final TechnologyRepository technologyRepository;
-
-    public TechnologyServiceImp(TechnologyRepository technologyRepository) {
-        this.technologyRepository = technologyRepository;
-    }
+    @Autowired
+    TechnologyRepository technologyRepository;
 
     @Override
+    @Transactional
     public TechnologyDomain createTechnology(TechnologyDomain technologyDomain) {
         Technology technology = TechnologyMapper.mapDomainToModel(technologyDomain);
         technologyRepository.save(technology);
@@ -29,6 +30,7 @@ public class TechnologyServiceImp implements TechnologyService {
     }
 
     @Override
+    @Transactional
     public TechnologyDomain updateTechnology(TechnologyDomain technologyDomain, Long id) throws TechnologyNotFoundException {
         Optional<Technology> technologyOptional = Optional.ofNullable(technologyRepository.findById(id)
                 .orElseThrow(() -> new TechnologyNotFoundException("No se encontro el Id")));
@@ -38,6 +40,7 @@ public class TechnologyServiceImp implements TechnologyService {
     }
 
     @Override
+    @Transactional
     public List<TechnologyDomain> findAll() {
         List<Technology> technologies = technologyRepository.findAll();
         return technologies.stream().map(TechnologyMapper::mapModelToDomain)
@@ -45,6 +48,7 @@ public class TechnologyServiceImp implements TechnologyService {
     }
 
     @Override
+    @Transactional
     public void deleteTechnology(Long id) throws TechnologyNotFoundException {
         Optional<Technology> technologyOptional = Optional.ofNullable(technologyRepository.findById(id)
                 .orElseThrow(() -> new TechnologyNotFoundException("No se encontro el Id")));
