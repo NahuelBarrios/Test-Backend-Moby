@@ -6,6 +6,7 @@ import com.testback.models.views.CandidateDto;
 import com.testback.models.views.CandidateDtoCreateUpdate;
 
 public class CandidateMapper {
+    private CandidateMapper(){}
 
     public static Candidate mapDomainToModel(CandidateDomain candidateDomain){
         return Candidate.builder()

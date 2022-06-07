@@ -9,6 +9,8 @@ import com.testback.models.views.CandidateByTechnologyDto;
 
 public class CandidateByTechnologyMapper {
 
+    private CandidateByTechnologyMapper(){}
+
     public static CandidateByTechnology mapDomainToModel(CandidateByTechnologyDomain candidateByTechnologyDomain){
         return CandidateByTechnology.builder()
                 .id(candidateByTechnologyDomain.getId())

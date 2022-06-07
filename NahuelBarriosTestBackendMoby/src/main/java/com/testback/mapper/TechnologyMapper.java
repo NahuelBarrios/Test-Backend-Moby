@@ -7,6 +7,8 @@ import com.testback.models.views.TechnologyDtoCreateUpdate;
 
 public class TechnologyMapper {
 
+    private TechnologyMapper(){}
+
     public static Technology mapDomainToModel(TechnologyDomain technologyDomain){
         return Technology.builder()
                 .id(technologyDomain.getId())
