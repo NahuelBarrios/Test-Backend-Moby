@@ -22,14 +22,14 @@ public class CandidateByTechnologyResource implements CandidateByTechnologyContr
 
     @Override
     public ResponseEntity<CandidateByTechnologyDto> createCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto) {
-        CandidateByTechnologyDto candidateByTechnologyDto = CandidateByTechnologyMapper.mapDomainToDto(
+        var candidateByTechnologyDto = CandidateByTechnologyMapper.mapDomainToDto(
                 candidateByTechnologyServiceImp.createCandidateByTechnology(candidateByTechnologyCreateUpdateDto));
         return new ResponseEntity<>(candidateByTechnologyDto, HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<CandidateByTechnologyDto> updateCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto, Long id) {
-        CandidateByTechnologyDto candidateByTechnologyDto = CandidateByTechnologyMapper.mapDomainToDto(
+        var candidateByTechnologyDto = CandidateByTechnologyMapper.mapDomainToDto(
                 candidateByTechnologyServiceImp.updateCandidateByTechnology(candidateByTechnologyCreateUpdateDto, id));
         return new ResponseEntity<>(candidateByTechnologyDto, HttpStatus.OK);
     }

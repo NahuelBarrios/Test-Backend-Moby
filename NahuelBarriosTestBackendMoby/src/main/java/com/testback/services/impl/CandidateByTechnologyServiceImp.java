@@ -39,7 +39,8 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
             throws CandidateNotFoundException, TechnologyNotFoundException, CandidateByTechnologyNotFoundException {
         Optional<Candidate> optionalCandidate = getOptionalCandidate(candidateByTechnologyCreateUpdateDto);
         Optional<Technology> optionalTechnology = getOptionalTechnology(candidateByTechnologyCreateUpdateDto);
-        CandidateByTechnology candidateByTechnology = CandidateByTechnologyMapper.mapCreatingToModel(candidateByTechnologyCreateUpdateDto, optionalTechnology.get(), optionalCandidate.get());
+
+        var candidateByTechnology = CandidateByTechnologyMapper.mapCreatingToModel(candidateByTechnologyCreateUpdateDto, optionalTechnology.get(), optionalCandidate.get());
         return CandidateByTechnologyMapper.mapModelToDomain(candidateByTechnologyRepository.save(candidateByTechnology));
     }
 
@@ -51,7 +52,7 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         Optional<CandidateByTechnology> optionalCandidateByTechnology = getOptionalCandidateByTechnology(id);
         Optional<Candidate> optionalCandidate = getOptionalCandidate(candidateByTechnologyCreateUpdateDto);
         Optional<Technology> optionalTechnology = getOptionalTechnology(candidateByTechnologyCreateUpdateDto);
-        CandidateByTechnology candidateByTechnology = optionalCandidateByTechnology.get();
+        var candidateByTechnology = optionalCandidateByTechnology.get();
         candidateByTechnology.setCandidate(optionalCandidate.get());
         candidateByTechnology.setTechnology(optionalTechnology.get());
         candidateByTechnology.setExperience(candidateByTechnologyCreateUpdateDto.getExperience());

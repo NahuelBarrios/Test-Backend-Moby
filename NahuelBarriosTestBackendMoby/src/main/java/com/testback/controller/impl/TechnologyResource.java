@@ -1,7 +1,6 @@
 package com.testback.controller.impl;
 
 import com.testback.controller.TechnologyController;
-import com.testback.domain.TechnologyDomain;
 import com.testback.mapper.TechnologyMapper;
 import com.testback.models.views.TechnologyDto;
 import com.testback.models.views.TechnologyDtoCreateUpdate;
@@ -23,15 +22,15 @@ public class TechnologyResource implements TechnologyController {
 
     @Override
     public ResponseEntity<TechnologyDto> createTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate) {
-        TechnologyDomain technologyDomain = TechnologyMapper.mapCreateUpdateToDomain(technologyDtoCreateUpdate);
-        TechnologyDto technologyDto = TechnologyMapper.mapDomainToDto(technologyServiceImp.createTechnology(technologyDomain));
+        var technologyDomain = TechnologyMapper.mapCreateUpdateToDomain(technologyDtoCreateUpdate);
+        var technologyDto = TechnologyMapper.mapDomainToDto(technologyServiceImp.createTechnology(technologyDomain));
         return new ResponseEntity<>(technologyDto, HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<TechnologyDto> updateTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate, Long id) {
-        TechnologyDomain technologyDomain = TechnologyMapper.mapCreateUpdateToDomain(technologyDtoCreateUpdate);
-        TechnologyDto technologyDto = TechnologyMapper.mapDomainToDto(technologyServiceImp.updateTechnology(technologyDomain, id));
+        var technologyDomain = TechnologyMapper.mapCreateUpdateToDomain(technologyDtoCreateUpdate);
+        var technologyDto = TechnologyMapper.mapDomainToDto(technologyServiceImp.updateTechnology(technologyDomain, id));
         return new ResponseEntity<>(technologyDto, HttpStatus.OK);
     }
 

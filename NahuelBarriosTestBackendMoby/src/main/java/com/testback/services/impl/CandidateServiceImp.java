@@ -25,7 +25,7 @@ public class CandidateServiceImp implements CandidateService {
     @Override
     @Transactional
     public CandidateDomain createCandidate(CandidateDomain candidateDomain) {
-        Candidate candidate = CandidateMapper.mapDomainToModel(candidateDomain);
+        var candidate = CandidateMapper.mapDomainToModel(candidateDomain);
         candidateRepository.save(candidate);
         return CandidateMapper.mapModelToDomain(candidate);
     }
@@ -35,7 +35,10 @@ public class CandidateServiceImp implements CandidateService {
     public CandidateDomain updateCandidate(Long id, CandidateDomain candidateDomain) throws CandidateNotFoundException {
         Optional<Candidate> candidateOptional = Optional.ofNullable(candidateRepository.findById(id)
                 .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id")));
-        Candidate candidate = candidateOptional.get();
+        if (candidateOptional.isEmpty()){
+            throw new CandidateNotFoundException("No se encontro el Id");
+        }
+        var candidate = candidateOptional.get();
         candidate.setName(candidateDomain.getName());
         candidate.setLastName(candidateDomain.getLastName());
         candidate.setDniType(candidateDomain.getDniType());

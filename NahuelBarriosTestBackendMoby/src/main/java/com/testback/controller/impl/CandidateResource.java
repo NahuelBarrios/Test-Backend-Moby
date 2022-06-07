@@ -1,7 +1,6 @@
 package com.testback.controller.impl;
 
 import com.testback.controller.CandidateController;
-import com.testback.domain.CandidateDomain;
 import com.testback.mapper.CandidateMapper;
 import com.testback.models.views.CandidateDto;
 import com.testback.models.views.CandidateDtoCreateUpdate;
@@ -22,15 +21,15 @@ public class CandidateResource implements CandidateController {
 
     @Override
     public ResponseEntity<CandidateDto> createCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate) {
-        CandidateDomain candidateDomain = CandidateMapper.mapCreateUpdateToDomain(candidateDtoCreateUpdate);
-        CandidateDto candidateDto = CandidateMapper.mapDomainToDto(candidateServiceImp.createCandidate(candidateDomain));
+        var candidateDomain = CandidateMapper.mapCreateUpdateToDomain(candidateDtoCreateUpdate);
+        var candidateDto = CandidateMapper.mapDomainToDto(candidateServiceImp.createCandidate(candidateDomain));
         return new ResponseEntity<>(candidateDto, HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<CandidateDto> updateCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate, Long id) {
-        CandidateDomain candidateDomain = CandidateMapper.mapCreateUpdateToDomain(candidateDtoCreateUpdate);
-        CandidateDto candidateDto = CandidateMapper.mapDomainToDto(candidateServiceImp.updateCandidate(id, candidateDomain));
+        var candidateDomain = CandidateMapper.mapCreateUpdateToDomain(candidateDtoCreateUpdate);
+        var candidateDto = CandidateMapper.mapDomainToDto(candidateServiceImp.updateCandidate(id, candidateDomain));
         return new ResponseEntity<>(candidateDto, HttpStatus.OK);
     }
 

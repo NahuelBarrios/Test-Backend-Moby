@@ -26,7 +26,7 @@ public class Technology {
     @Column(name = "id_tecnologias")
     private Long id;
     @Column(name = "tecnologia", nullable = false)
-    private String technology;
+    private String nameTechnology;
     @OneToMany(mappedBy = "technology")
     @JsonBackReference
     private List<CandidateByTechnology> candidateByTechnologies;

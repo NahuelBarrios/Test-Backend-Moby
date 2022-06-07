@@ -24,7 +24,7 @@ public class TechnologyServiceImp implements TechnologyService {
     @Override
     @Transactional
     public TechnologyDomain createTechnology(TechnologyDomain technologyDomain) {
-        Technology technology = TechnologyMapper.mapDomainToModel(technologyDomain);
+        var technology = TechnologyMapper.mapDomainToModel(technologyDomain);
         technologyRepository.save(technology);
         return TechnologyMapper.mapModelToDomain(technology);
     }
@@ -34,8 +34,8 @@ public class TechnologyServiceImp implements TechnologyService {
     public TechnologyDomain updateTechnology(TechnologyDomain technologyDomain, Long id) throws TechnologyNotFoundException {
         Optional<Technology> technologyOptional = Optional.ofNullable(technologyRepository.findById(id)
                 .orElseThrow(() -> new TechnologyNotFoundException("No se encontro el Id")));
-        Technology technology = technologyOptional.get();
-        technology.setTechnology(technologyDomain.getTechnology());
+        var technology = technologyOptional.get();
+        technology.setNameTechnology(technologyDomain.getTechnology());
         return TechnologyMapper.mapModelToDomain(technologyRepository.save(technology));
     }
 

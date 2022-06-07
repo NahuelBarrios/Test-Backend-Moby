@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TechnologyDto {
     private Long id;
-    private String technology;
+    private String nameTechnology;
 }

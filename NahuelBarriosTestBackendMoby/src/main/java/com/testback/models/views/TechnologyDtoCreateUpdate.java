@@ -15,5 +15,5 @@ public class TechnologyDtoCreateUpdate {
 
     @NotNull
     @NotBlank
-    private String technology;
+    private String nameTechnology;
 }
