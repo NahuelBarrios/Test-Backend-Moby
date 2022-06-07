@@ -3,9 +3,9 @@ package com.testback.config;
 import com.testback.repository.CandidateByTechnologyRepository;
 import com.testback.repository.CandidateRepository;
 import com.testback.repository.TechnologyRepository;
-import com.testback.services.CandidateByTechnologyService;
-import com.testback.services.CandidateService;
-import com.testback.services.TechnologyService;
+import com.testback.services.impl.CandidateByTechnologyServiceImp;
+import com.testback.services.impl.CandidateServiceImp;
+import com.testback.services.impl.TechnologyServiceImp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,19 +13,19 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
     @Bean
-    CandidateService candidateService(CandidateRepository candidateRepository){
-        return new CandidateService(candidateRepository);
+    CandidateServiceImp candidateService(CandidateRepository candidateRepository) {
+        return new CandidateServiceImp(candidateRepository);
     }
 
     @Bean
-    TechnologyService technologyService(TechnologyRepository technologyRepository){
-        return new TechnologyService(technologyRepository);
+    TechnologyServiceImp technologyService(TechnologyRepository technologyRepository) {
+        return new TechnologyServiceImp(technologyRepository);
     }
 
     @Bean
-    CandidateByTechnologyService candidateByTechnologyService(CandidateByTechnologyRepository candidateByTechnologyRepository,
-                                                              CandidateRepository candidateRepository,
-                                                              TechnologyRepository technologyRepository){
-        return new CandidateByTechnologyService(candidateByTechnologyRepository,candidateRepository,technologyRepository);
+    CandidateByTechnologyServiceImp candidateByTechnologyService(CandidateByTechnologyRepository candidateByTechnologyRepository,
+                                                                 CandidateRepository candidateRepository,
+                                                                 TechnologyRepository technologyRepository) {
+        return new CandidateByTechnologyServiceImp(candidateByTechnologyRepository, candidateRepository, technologyRepository);
     }
 }
