@@ -31,6 +31,5 @@ public class CandidateDtoCreateUpdate {
     @NotBlank
     private String dni;
 
-    @NotNull
     private LocalDate birthDate;
 }

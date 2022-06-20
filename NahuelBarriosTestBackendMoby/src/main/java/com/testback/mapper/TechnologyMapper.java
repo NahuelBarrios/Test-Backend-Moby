@@ -1,34 +1,28 @@
 package com.testback.mapper;
 
-import com.testback.domain.TechnologyDomain;
 import com.testback.models.entities.Technology;
 import com.testback.models.views.TechnologyDto;
 import com.testback.models.views.TechnologyDtoCreateUpdate;
 
 public class TechnologyMapper {
 
-    private TechnologyMapper(){}
+    private TechnologyMapper() {
+    }
 
-    public static Technology mapDomainToModel(TechnologyDomain technologyDomain){
+    public static Technology mapDtoToModel(Technology technology) {
         return Technology.builder()
-                .id(technologyDomain.getId())
-                .nameTechnology(technologyDomain.getTechnology()).build();
-    }
-
-    public static TechnologyDomain mapModelToDomain(Technology technology){
-        return TechnologyDomain.builder()
                 .id(technology.getId())
-                .technology(technology.getNameTechnology()).build();
+                .nameTechnology(technology.getNameTechnology()).build();
     }
 
-    public static TechnologyDomain mapCreateUpdateToDomain(TechnologyDtoCreateUpdate technologyDtoCreateUpdate) {
-        return TechnologyDomain.builder()
-                .technology(technologyDtoCreateUpdate.getNameTechnology()).build();
+    public static Technology mapCreateUpdateToModel(TechnologyDtoCreateUpdate technologyDtoCreateUpdate) {
+        return Technology.builder()
+                .nameTechnology(technologyDtoCreateUpdate.getNameTechnology()).build();
     }
 
-    public static TechnologyDto mapDomainToDto(TechnologyDomain technologyDomain){
+    public static TechnologyDto mapModelToDto(Technology technology) {
         return TechnologyDto.builder()
-                .id(technologyDomain.getId())
-                .nameTechnology(technologyDomain.getTechnology()).build();
+                .id(technology.getId())
+                .nameTechnology(technology.getNameTechnology()).build();
     }
 }

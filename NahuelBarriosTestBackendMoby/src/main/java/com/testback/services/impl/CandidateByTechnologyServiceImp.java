@@ -1,6 +1,5 @@
 package com.testback.services.impl;
 
-import com.testback.domain.CandidateByTechnologyDomain;
 import com.testback.exception.CandidateByTechnologyNotFoundException;
 import com.testback.exception.CandidateNotFoundException;
 import com.testback.exception.TechnologyNotFoundException;
@@ -9,6 +8,7 @@ import com.testback.models.entities.Candidate;
 import com.testback.models.entities.CandidateByTechnology;
 import com.testback.models.entities.Technology;
 import com.testback.models.views.CandidateByTechnologyCreateUpdateDto;
+import com.testback.models.views.CandidateByTechnologyDto;
 import com.testback.repository.CandidateByTechnologyRepository;
 import com.testback.repository.CandidateRepository;
 import com.testback.repository.TechnologyRepository;
@@ -35,19 +35,19 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
 
     @Override
     @Transactional
-    public CandidateByTechnologyDomain createCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto)
+    public CandidateByTechnologyDto createCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto)
             throws CandidateNotFoundException, TechnologyNotFoundException, CandidateByTechnologyNotFoundException {
         Optional<Candidate> optionalCandidate = getOptionalCandidate(candidateByTechnologyCreateUpdateDto);
         Optional<Technology> optionalTechnology = getOptionalTechnology(candidateByTechnologyCreateUpdateDto);
 
         var candidateByTechnology = CandidateByTechnologyMapper.mapCreatingToModel(candidateByTechnologyCreateUpdateDto, optionalTechnology.get(), optionalCandidate.get());
-        return CandidateByTechnologyMapper.mapModelToDomain(candidateByTechnologyRepository.save(candidateByTechnology));
+        return CandidateByTechnologyMapper.mapModelToDto(candidateByTechnologyRepository.save(candidateByTechnology));
     }
 
     @Override
     @Transactional
-    public CandidateByTechnologyDomain updateCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto,
-                                                                   Long id) throws CandidateNotFoundException, TechnologyNotFoundException,
+    public CandidateByTechnologyDto updateCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto,
+                                                                Long id) throws CandidateNotFoundException, TechnologyNotFoundException,
             CandidateByTechnologyNotFoundException {
         Optional<CandidateByTechnology> optionalCandidateByTechnology = getOptionalCandidateByTechnology(id);
         Optional<Candidate> optionalCandidate = getOptionalCandidate(candidateByTechnologyCreateUpdateDto);
@@ -56,14 +56,14 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         candidateByTechnology.setCandidate(optionalCandidate.get());
         candidateByTechnology.setTechnology(optionalTechnology.get());
         candidateByTechnology.setExperience(candidateByTechnologyCreateUpdateDto.getExperience());
-        return CandidateByTechnologyMapper.mapModelToDomain(candidateByTechnologyRepository.save(candidateByTechnology));
+        return CandidateByTechnologyMapper.mapModelToDto(candidateByTechnologyRepository.save(candidateByTechnology));
     }
 
     @Override
     @Transactional
-    public List<CandidateByTechnologyDomain> findAll() {
+    public List<CandidateByTechnologyDto> findAll() {
         List<CandidateByTechnology> candidateByTechnologies = candidateByTechnologyRepository.findAll();
-        return candidateByTechnologies.stream().map(CandidateByTechnologyMapper::mapModelToDomain)
+        return candidateByTechnologies.stream().map(CandidateByTechnologyMapper::mapModelToDto)
                 .collect(Collectors.toList());
     }
 

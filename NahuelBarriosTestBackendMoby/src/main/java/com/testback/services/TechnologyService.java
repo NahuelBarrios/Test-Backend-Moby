@@ -1,17 +1,18 @@
 package com.testback.services;
 
-import com.testback.domain.TechnologyDomain;
 import com.testback.exception.TechnologyNotFoundException;
+import com.testback.models.views.TechnologyDto;
+import com.testback.models.views.TechnologyDtoCreateUpdate;
 
 import java.util.List;
 
 public interface TechnologyService {
-    TechnologyDomain createTechnology(TechnologyDomain technologyDomain);
+    TechnologyDto createTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate);
 
-    TechnologyDomain updateTechnology(TechnologyDomain technologyDomain,Long id) throws TechnologyNotFoundException;
+    TechnologyDto updateTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate, Long id) throws TechnologyNotFoundException;
 
-    List<TechnologyDomain> findAll();
+    List<TechnologyDto> findAll();
 
-     void deleteTechnology(Long id) throws TechnologyNotFoundException;
+    void deleteTechnology(Long id) throws TechnologyNotFoundException;
 
 }

@@ -1,6 +1,5 @@
 package com.testback.mapper;
 
-import com.testback.domain.CandidateByTechnologyDomain;
 import com.testback.models.entities.Candidate;
 import com.testback.models.entities.CandidateByTechnology;
 import com.testback.models.entities.Technology;
@@ -9,38 +8,31 @@ import com.testback.models.views.CandidateByTechnologyDto;
 
 public class CandidateByTechnologyMapper {
 
-    private CandidateByTechnologyMapper(){}
-
-    public static CandidateByTechnology mapDomainToModel(CandidateByTechnologyDomain candidateByTechnologyDomain){
-        return CandidateByTechnology.builder()
-                .id(candidateByTechnologyDomain.getId())
-                .technology(candidateByTechnologyDomain.getTechnology())
-                .candidate(candidateByTechnologyDomain.getCandidate())
-                .experience(candidateByTechnologyDomain.getExperience()).build();
+    private CandidateByTechnologyMapper() {
     }
 
-    public static CandidateByTechnologyDomain mapModelToDomain(CandidateByTechnology candidateByTechnology){
-        return CandidateByTechnologyDomain.builder()
-                .id(candidateByTechnology.getId())
-                .technology(candidateByTechnology.getTechnology())
-                .candidate(candidateByTechnology.getCandidate())
-                .experience(candidateByTechnology.getExperience()).build();
+    public static CandidateByTechnology mapDtoToModel(CandidateByTechnologyDto candidateByTechnologyDto) {
+        return CandidateByTechnology.builder()
+                .id(candidateByTechnologyDto.getId())
+                .technology(candidateByTechnologyDto.getTechnology())
+                .candidate(candidateByTechnologyDto.getCandidate())
+                .experience(candidateByTechnologyDto.getExperience()).build();
     }
 
     public static CandidateByTechnology mapCreatingToModel(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto,
-                                                           Technology technology, Candidate candidate){
+                                                           Technology technology, Candidate candidate) {
         return CandidateByTechnology.builder()
                 .candidate(candidate)
                 .technology(technology)
                 .experience(candidateByTechnologyCreateUpdateDto.getExperience()).build();
     }
 
-    public static CandidateByTechnologyDto mapDomainToDto(CandidateByTechnologyDomain candidateByTechnologyDomain){
+    public static CandidateByTechnologyDto mapModelToDto(CandidateByTechnology candidateByTechnology) {
         return CandidateByTechnologyDto.builder()
-                .id(candidateByTechnologyDomain.getId())
-                .technology(candidateByTechnologyDomain.getTechnology())
-                .candidate(candidateByTechnologyDomain.getCandidate())
-                .experience(candidateByTechnologyDomain.getExperience()).build();
+                .id(candidateByTechnology.getId())
+                .technology(candidateByTechnology.getTechnology())
+                .candidate(candidateByTechnology.getCandidate())
+                .experience(candidateByTechnology.getExperience()).build();
     }
 
 }

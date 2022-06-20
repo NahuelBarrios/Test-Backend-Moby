@@ -1,13 +1,12 @@
 package com.testback.controller.impl;
 
 import com.testback.controller.CandidateController;
-import com.testback.mapper.CandidateMapper;
+import com.testback.exception.CandidateNotFoundException;
 import com.testback.models.views.CandidateDto;
 import com.testback.models.views.CandidateDtoCreateUpdate;
 import com.testback.services.impl.CandidateServiceImp;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,27 +20,22 @@ public class CandidateResource implements CandidateController {
 
     @Override
     public ResponseEntity<CandidateDto> createCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate) {
-        var candidateDomain = CandidateMapper.mapCreateUpdateToDomain(candidateDtoCreateUpdate);
-        var candidateDto = CandidateMapper.mapDomainToDto(candidateServiceImp.createCandidate(candidateDomain));
-        return new ResponseEntity<>(candidateDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(candidateServiceImp.createCandidate(candidateDtoCreateUpdate), HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<CandidateDto> updateCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate, Long id) {
-        var candidateDomain = CandidateMapper.mapCreateUpdateToDomain(candidateDtoCreateUpdate);
-        var candidateDto = CandidateMapper.mapDomainToDto(candidateServiceImp.updateCandidate(id, candidateDomain));
-        return new ResponseEntity<>(candidateDto, HttpStatus.OK);
+    public ResponseEntity<CandidateDto> updateCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate,
+                                                        Long id) throws CandidateNotFoundException {
+        return new ResponseEntity<>(candidateServiceImp.updateCandidate(id, candidateDtoCreateUpdate), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<CandidateDto>> findAll() {
-        var candidates = candidateServiceImp.findAll().stream()
-                .map(CandidateMapper::mapDomainToDto).collect(Collectors.toList());
-        return new ResponseEntity<>(candidates, HttpStatus.OK);
+        return new ResponseEntity<>(candidateServiceImp.findAll(), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<HttpStatus> deleteCandidate(Long id) {
+    public ResponseEntity<HttpStatus> deleteCandidate(Long id) throws CandidateNotFoundException {
         candidateServiceImp.deleteCandidate(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

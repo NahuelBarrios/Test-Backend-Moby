@@ -1,9 +1,10 @@
 package com.testback.services.impl;
 
-import com.testback.domain.TechnologyDomain;
 import com.testback.exception.TechnologyNotFoundException;
 import com.testback.mapper.TechnologyMapper;
 import com.testback.models.entities.Technology;
+import com.testback.models.views.TechnologyDto;
+import com.testback.models.views.TechnologyDtoCreateUpdate;
 import com.testback.repository.TechnologyRepository;
 
 import java.util.List;
@@ -23,27 +24,27 @@ public class TechnologyServiceImp implements TechnologyService {
 
     @Override
     @Transactional
-    public TechnologyDomain createTechnology(TechnologyDomain technologyDomain) {
-        var technology = TechnologyMapper.mapDomainToModel(technologyDomain);
+    public TechnologyDto createTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate) {
+        var technology = TechnologyMapper.mapCreateUpdateToModel(technologyDtoCreateUpdate);
         technologyRepository.save(technology);
-        return TechnologyMapper.mapModelToDomain(technology);
+        return TechnologyMapper.mapModelToDto(technology);
     }
 
     @Override
     @Transactional
-    public TechnologyDomain updateTechnology(TechnologyDomain technologyDomain, Long id) throws TechnologyNotFoundException {
+    public TechnologyDto updateTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate, Long id) throws TechnologyNotFoundException {
         Optional<Technology> technologyOptional = Optional.ofNullable(technologyRepository.findById(id)
                 .orElseThrow(() -> new TechnologyNotFoundException("No se encontro el Id")));
         var technology = technologyOptional.get();
-        technology.setNameTechnology(technologyDomain.getTechnology());
-        return TechnologyMapper.mapModelToDomain(technologyRepository.save(technology));
+        technology.setNameTechnology(technologyDtoCreateUpdate.getNameTechnology());
+        return TechnologyMapper.mapModelToDto(technologyRepository.save(technology));
     }
 
     @Override
     @Transactional
-    public List<TechnologyDomain> findAll() {
+    public List<TechnologyDto> findAll() {
         List<Technology> technologies = technologyRepository.findAll();
-        return technologies.stream().map(TechnologyMapper::mapModelToDomain)
+        return technologies.stream().map(TechnologyMapper::mapModelToDto)
                 .collect(Collectors.toList());
     }
 

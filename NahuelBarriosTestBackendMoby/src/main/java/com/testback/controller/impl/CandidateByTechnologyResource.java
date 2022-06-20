@@ -1,13 +1,11 @@
 package com.testback.controller.impl;
 
 import com.testback.controller.CandidateByTechnologyController;
-import com.testback.mapper.CandidateByTechnologyMapper;
 import com.testback.models.views.CandidateByTechnologyCreateUpdateDto;
 import com.testback.models.views.CandidateByTechnologyDto;
 import com.testback.services.impl.CandidateByTechnologyServiceImp;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,24 +19,22 @@ public class CandidateByTechnologyResource implements CandidateByTechnologyContr
     CandidateByTechnologyServiceImp candidateByTechnologyServiceImp;
 
     @Override
-    public ResponseEntity<CandidateByTechnologyDto> createCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto) {
-        var candidateByTechnologyDto = CandidateByTechnologyMapper.mapDomainToDto(
-                candidateByTechnologyServiceImp.createCandidateByTechnology(candidateByTechnologyCreateUpdateDto));
-        return new ResponseEntity<>(candidateByTechnologyDto, HttpStatus.CREATED);
+    public ResponseEntity<CandidateByTechnologyDto> createCandidateByTechnology
+            (CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto) {
+        return new ResponseEntity<>(candidateByTechnologyServiceImp
+                .createCandidateByTechnology(candidateByTechnologyCreateUpdateDto), HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<CandidateByTechnologyDto> updateCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto, Long id) {
-        var candidateByTechnologyDto = CandidateByTechnologyMapper.mapDomainToDto(
-                candidateByTechnologyServiceImp.updateCandidateByTechnology(candidateByTechnologyCreateUpdateDto, id));
-        return new ResponseEntity<>(candidateByTechnologyDto, HttpStatus.OK);
+    public ResponseEntity<CandidateByTechnologyDto> updateCandidateByTechnology
+            (CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto, Long id) {
+        return new ResponseEntity<>(candidateByTechnologyServiceImp
+                .updateCandidateByTechnology(candidateByTechnologyCreateUpdateDto, id), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<CandidateByTechnologyDto>> findAll() {
-        var candidatesByTechnology = candidateByTechnologyServiceImp.findAll().stream().map(CandidateByTechnologyMapper::mapDomainToDto)
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(candidatesByTechnology, HttpStatus.OK);
+        return new ResponseEntity<>(candidateByTechnologyServiceImp.findAll(), HttpStatus.OK);
     }
 
     @Override

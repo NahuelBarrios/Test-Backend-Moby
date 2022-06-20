@@ -1,9 +1,10 @@
 package com.testback.services.impl;
 
-import com.testback.domain.CandidateDomain;
 import com.testback.exception.CandidateNotFoundException;
 import com.testback.mapper.CandidateMapper;
 import com.testback.models.entities.Candidate;
+import com.testback.models.views.CandidateDto;
+import com.testback.models.views.CandidateDtoCreateUpdate;
 import com.testback.repository.CandidateRepository;
 
 import java.util.List;
@@ -24,34 +25,34 @@ public class CandidateServiceImp implements CandidateService {
 
     @Override
     @Transactional
-    public CandidateDomain createCandidate(CandidateDomain candidateDomain) {
-        var candidate = CandidateMapper.mapDomainToModel(candidateDomain);
+    public CandidateDto createCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate) {
+        var candidate = CandidateMapper.mapCreateUpdateToModel(candidateDtoCreateUpdate);
         candidateRepository.save(candidate);
-        return CandidateMapper.mapModelToDomain(candidate);
+        return CandidateMapper.mapModelToDto(candidate);
     }
 
     @Override
     @Transactional
-    public CandidateDomain updateCandidate(Long id, CandidateDomain candidateDomain) throws CandidateNotFoundException {
+    public CandidateDto updateCandidate(Long id, CandidateDtoCreateUpdate candidateDtoCreateUpdate) throws CandidateNotFoundException {
         Optional<Candidate> candidateOptional = Optional.ofNullable(candidateRepository.findById(id)
                 .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id")));
-        if (candidateOptional.isEmpty()){
+        if (candidateOptional.isEmpty()) {
             throw new CandidateNotFoundException("No se encontro el Id");
         }
         var candidate = candidateOptional.get();
-        candidate.setName(candidateDomain.getName());
-        candidate.setLastName(candidateDomain.getLastName());
-        candidate.setDniType(candidateDomain.getDniType());
-        candidate.setDni(candidateDomain.getDni());
-        candidate.setBirthDate(candidateDomain.getBirthDate());
-        return CandidateMapper.mapModelToDomain(candidateRepository.save(candidate));
+        candidate.setName(candidateDtoCreateUpdate.getName());
+        candidate.setLastName(candidateDtoCreateUpdate.getLastName());
+        candidate.setDniType(candidateDtoCreateUpdate.getDniType());
+        candidate.setDni(candidateDtoCreateUpdate.getDni());
+        candidate.setBirthDate(candidateDtoCreateUpdate.getBirthDate());
+        return CandidateMapper.mapModelToDto(candidateRepository.save(candidate));
     }
 
     @Override
     @Transactional
-    public List<CandidateDomain> findAll() {
+    public List<CandidateDto> findAll() {
         List<Candidate> candidates = candidateRepository.findAll();
-        return candidates.stream().map(CandidateMapper::mapModelToDomain)
+        return candidates.stream().map(CandidateMapper::mapModelToDto)
                 .collect(Collectors.toList());
     }
 
