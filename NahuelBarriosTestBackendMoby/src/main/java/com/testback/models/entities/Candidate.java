@@ -41,7 +41,7 @@ public class Candidate {
     @Column(name = "numero_dni", nullable = false)
     private String dni;
 
-    @Column(name = "fecha_nacimiento", nullable = false)
+    @Column(name = "fecha_nacimiento", nullable = true)
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birthDate;
 

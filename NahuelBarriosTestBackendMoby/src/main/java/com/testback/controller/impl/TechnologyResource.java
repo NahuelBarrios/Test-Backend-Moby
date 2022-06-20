@@ -1,44 +1,41 @@
 package com.testback.controller.impl;
 
 import com.testback.controller.TechnologyController;
-import com.testback.domain.TechnologyDomain;
-import com.testback.mapper.TechnologyMapper;
 import com.testback.models.views.TechnologyDto;
 import com.testback.models.views.TechnologyDtoCreateUpdate;
-import com.testback.services.TechnologyService;
+import com.testback.services.impl.TechnologyServiceImp;
+
 import java.util.List;
-import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TechnologyResource implements TechnologyController {
 
-    private final TechnologyService technologyService;
+    @Autowired
+    TechnologyServiceImp technologyServiceImp;
 
-    public TechnologyResource(TechnologyService technologyService){
-        this.technologyService = technologyService;
+    @Override
+    public ResponseEntity<TechnologyDto> createTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate) {
+        return new ResponseEntity<>(technologyServiceImp.createTechnology(technologyDtoCreateUpdate), HttpStatus.CREATED);
     }
 
     @Override
-    public TechnologyDto createTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate) {
-        TechnologyDomain technologyDomain = TechnologyMapper.mapCreateUpdateToDomain(technologyDtoCreateUpdate);
-        return TechnologyMapper.mapDomainToDto(technologyService.createTechnology(technologyDomain));
+    public ResponseEntity<TechnologyDto> updateTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate, Long id) {
+        return new ResponseEntity<>(technologyServiceImp.updateTechnology(technologyDtoCreateUpdate, id), HttpStatus.OK);
     }
 
     @Override
-    public TechnologyDto updateTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate, Long id) {
-        TechnologyDomain technologyDomain = TechnologyMapper.mapCreateUpdateToDomain(technologyDtoCreateUpdate);
-        return TechnologyMapper.mapDomainToDto(technologyService.updateTechnology(technologyDomain,id));
+    public ResponseEntity<List<TechnologyDto>> findAll() {
+        return new ResponseEntity<>(technologyServiceImp.findAll(), HttpStatus.OK);
     }
 
     @Override
-    public List<TechnologyDto> findAll() {
-        return technologyService.findAll().stream()
-                .map(TechnologyMapper::mapDomainToDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public void deleteTechnology(Long id) {
-        technologyService.deleteTechnology(id);
+    public ResponseEntity<HttpStatus> deleteTechnology(Long id) {
+        technologyServiceImp.deleteTechnology(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

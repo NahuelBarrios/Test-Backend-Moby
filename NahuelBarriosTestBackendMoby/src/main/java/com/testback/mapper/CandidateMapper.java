@@ -1,24 +1,24 @@
 package com.testback.mapper;
 
-import com.testback.domain.CandidateDomain;
 import com.testback.models.entities.Candidate;
 import com.testback.models.views.CandidateDto;
 import com.testback.models.views.CandidateDtoCreateUpdate;
 
 public class CandidateMapper {
-
-    public static Candidate mapDomainToModel(CandidateDomain candidateDomain){
-        return Candidate.builder()
-                .id(candidateDomain.getId())
-                .name(candidateDomain.getName())
-                .lastName(candidateDomain.getLastName())
-                .dniType(candidateDomain.getDniType())
-                .dni(candidateDomain.getDni())
-                .birthDate(candidateDomain.getBirthDate()).build();
+    private CandidateMapper() {
     }
 
-    public static CandidateDomain mapModelToDomain(Candidate candidate){
-        return CandidateDomain.builder()
+    public static Candidate mapCreateUpdateToModel(CandidateDtoCreateUpdate candidateDtoCreateUpdate) {
+        return Candidate.builder()
+                .name(candidateDtoCreateUpdate.getName())
+                .lastName(candidateDtoCreateUpdate.getLastName())
+                .dniType(candidateDtoCreateUpdate.getDniType())
+                .dni(candidateDtoCreateUpdate.getDni())
+                .birthDate(candidateDtoCreateUpdate.getBirthDate()).build();
+    }
+
+    public static CandidateDto mapModelToDto(Candidate candidate) {
+        return CandidateDto.builder()
                 .id(candidate.getId())
                 .name(candidate.getName())
                 .lastName(candidate.getLastName())
@@ -27,23 +27,14 @@ public class CandidateMapper {
                 .birthDate(candidate.getBirthDate()).build();
     }
 
-    public static CandidateDomain mapCreateUpdateToDomain(CandidateDtoCreateUpdate candidateDtoCreateUpdate){
-        return CandidateDomain.builder()
-                .name(candidateDtoCreateUpdate.getName())
-                .lastName(candidateDtoCreateUpdate.getLastName())
-                .dniType(candidateDtoCreateUpdate.getDniType())
-                .dni(candidateDtoCreateUpdate.getDni())
-                .birthDate(candidateDtoCreateUpdate.getBirthDate()).build();
-    }
-
-    public static CandidateDto mapDomainToDto(CandidateDomain candidateDomain){
-        return CandidateDto.builder()
-                .id(candidateDomain.getId())
-                .name(candidateDomain.getName())
-                .lastName(candidateDomain.getLastName())
-                .dniType(candidateDomain.getDniType())
-                .dni(candidateDomain.getDni())
-                .birthDate(candidateDomain.getBirthDate()).build();
+    public static Candidate mapDtoToModel(CandidateDto candidateDto) {
+        return Candidate.builder()
+                .id(candidateDto.getId())
+                .name(candidateDto.getName())
+                .lastName(candidateDto.getLastName())
+                .dniType(candidateDto.getDniType())
+                .dni(candidateDto.getDni())
+                .birthDate(candidateDto.getBirthDate()).build();
     }
 
 }
