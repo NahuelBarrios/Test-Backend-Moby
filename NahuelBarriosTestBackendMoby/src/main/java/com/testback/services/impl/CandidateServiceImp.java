@@ -12,12 +12,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.testback.services.CandidateService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
 @Service
+@Slf4j
 public class CandidateServiceImp implements CandidateService {
 
     @Autowired
@@ -30,6 +32,7 @@ public class CandidateServiceImp implements CandidateService {
     public CandidateDto createCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate) {
         var candidate = CandidateMapper.mapCreateUpdateToModel(candidateDtoCreateUpdate);
         candidateRepository.save(candidate);
+        log.info("Se creo el candidato con exito");
         return CandidateMapper.mapModelToDto(candidate);
     }
 
@@ -38,6 +41,7 @@ public class CandidateServiceImp implements CandidateService {
     public CandidateDto updateCandidate(Long id, CandidateDtoCreateUpdate candidateDtoCreateUpdate) throws CandidateNotFoundException {
         Optional<Candidate> candidateOptional = candidateRepository.findById(id);
         if (candidateOptional.isEmpty()) {
+            log.error("El candidato no existe");
             throw new CandidateNotFoundException(CANDIDATE_NOT_FOUND);
         }
         var candidate = candidateOptional.get();
@@ -46,7 +50,9 @@ public class CandidateServiceImp implements CandidateService {
         candidate.setDniType(candidateDtoCreateUpdate.getDniType());
         candidate.setDni(candidateDtoCreateUpdate.getDni());
         candidate.setBirthDate(candidateDtoCreateUpdate.getBirthDate());
-        return CandidateMapper.mapModelToDto(candidateRepository.save(candidate));
+        var candidateDto = CandidateMapper.mapModelToDto(candidateRepository.save(candidate));
+        log.info("Se modifico el candidato con exito");
+        return candidateDto;
     }
 
     @Override
@@ -62,8 +68,10 @@ public class CandidateServiceImp implements CandidateService {
     public void deleteCandidate(Long id) throws CandidateNotFoundException {
         Optional<Candidate> candidateOptional = candidateRepository.findById(id);
         if (candidateOptional.isEmpty()) {
+            log.error("El candidato no existe");
             throw new CandidateNotFoundException(CANDIDATE_NOT_FOUND);
         }
         candidateRepository.delete(candidateOptional.get());
+        log.info("Se elimino el candidato con exito");
     }
 }

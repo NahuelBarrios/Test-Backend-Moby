@@ -19,12 +19,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.testback.services.CandidateByTechnologyService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
 @Service
+@Slf4j
 public class CandidateByTechnologyServiceImp implements CandidateByTechnologyService {
     @Autowired
     CandidateByTechnologyRepository candidateByTechnologyRepository;
@@ -37,13 +39,17 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
     @Override
     @Transactional
     public CandidateByTechnologyDto createCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto)
-            throws CandidateNotFoundException, TechnologyNotFoundException {
+            throws CandidateNotFoundException, TechnologyNotFoundException, CandidateByTechnologyNotFoundException {
         Optional<Candidate> optionalCandidate = getOptionalCandidate(candidateByTechnologyCreateUpdateDto);
         Optional<Technology> optionalTechnology = getOptionalTechnology(candidateByTechnologyCreateUpdateDto);
-
+        if (optionalCandidate.isEmpty() || optionalTechnology.isEmpty()) {
+            log.error("No se pudo crear el candidato");
+            throw new CandidateByTechnologyNotFoundException("No se pudo crear la entidad Candidato por Tecnologia");
+        }
         var candidateByTechnology = CandidateByTechnologyMapper.mapCreatingToModel(candidateByTechnologyCreateUpdateDto, optionalTechnology.get(), optionalCandidate.get());
-        var ca = candidateByTechnologyRepository.save(candidateByTechnology);
-        return CandidateByTechnologyMapper.mapModelToDto(ca);
+        candidateByTechnologyRepository.save(candidateByTechnology);
+        log.info("Se creo el CandidateByTechnology con exito");
+        return CandidateByTechnologyMapper.mapModelToDto(candidateByTechnology);
     }
 
     @Override
@@ -54,11 +60,17 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         Optional<CandidateByTechnology> optionalCandidateByTechnology = getOptionalCandidateByTechnology(id);
         Optional<Candidate> optionalCandidate = getOptionalCandidate(candidateByTechnologyCreateUpdateDto);
         Optional<Technology> optionalTechnology = getOptionalTechnology(candidateByTechnologyCreateUpdateDto);
+        if (optionalCandidate.isEmpty() || optionalTechnology.isEmpty() || optionalCandidateByTechnology.isEmpty()) {
+            log.error("la informacion no existe");
+            throw new CandidateByTechnologyNotFoundException("No se pudo modificar el candidato por tecnologia");
+        }
         var candidateByTechnology = optionalCandidateByTechnology.get();
         candidateByTechnology.setCandidate(optionalCandidate.get());
         candidateByTechnology.setTechnology(optionalTechnology.get());
         candidateByTechnology.setExperience(candidateByTechnologyCreateUpdateDto.getExperience());
-        return CandidateByTechnologyMapper.mapModelToDto(candidateByTechnologyRepository.save(candidateByTechnology));
+        var candidateByTechnologyDto = CandidateByTechnologyMapper.mapModelToDto(candidateByTechnologyRepository.save(candidateByTechnology));
+        log.info("Se modifico el CandidateByTechnology con exito");
+        return candidateByTechnologyDto;
     }
 
     @Override
@@ -70,7 +82,7 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
     }
 
     @Override
-    public List<CandidateByTechnologyProjection> findCandidatesByTechnologies(String nameTechnology){
+    public List<CandidateByTechnologyProjection> findCandidatesByTechnologies(String nameTechnology) {
         return candidateByTechnologyRepository.getCandidatesByTechnologies(nameTechnology);
     }
 
@@ -78,22 +90,35 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
     @Transactional
     public void deleteCandidateByTechnology(Long id) throws CandidateByTechnologyNotFoundException {
         Optional<CandidateByTechnology> candidateByTechnologyOptional = getOptionalCandidateByTechnology(id);
+        if (candidateByTechnologyOptional.isEmpty()) {
+            log.error("La tecnologia no existe");
+            throw new CandidateByTechnologyNotFoundException("No se encontro el Id del candidato x tecnologia");
+        }
         candidateByTechnologyRepository.delete(candidateByTechnologyOptional.get());
+        log.info("Se elimino la tecnologia con exito");
     }
 
     private Optional<Candidate> getOptionalCandidate(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto) throws CandidateNotFoundException {
         return Optional.ofNullable(candidateRepository.findById(candidateByTechnologyCreateUpdateDto.getCandidateId())
-                .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id del candidato")));
+                .orElseThrow(() -> {
+                    log.error("el candidato no existe");
+                    return new CandidateNotFoundException("No se encontro el Id del candidato");
+                }));
     }
 
     private Optional<Technology> getOptionalTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto) throws TechnologyNotFoundException {
         return Optional.ofNullable(technologyRepository.findById(candidateByTechnologyCreateUpdateDto.getTechnologyId())
-                .orElseThrow(() -> new TechnologyNotFoundException("No se encontro el Id de la tecnologia")));
+                .orElseThrow(() -> {
+                    log.error("la tecnologia no existe");
+                    return new TechnologyNotFoundException("No se encontro el Id de la tecnologia");
+                }));
     }
 
     private Optional<CandidateByTechnology> getOptionalCandidateByTechnology(Long id) throws CandidateByTechnologyNotFoundException {
         return Optional.ofNullable(candidateByTechnologyRepository.findById(id)
-                .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id del candidato x tecnologia")));
+                .orElseThrow(() -> { log.error("el candidato x tecnologia no existe");
+                    return new CandidateNotFoundException("No se encontro el Id del candidato x tecnologia");}
+        ));
     }
 
 }
