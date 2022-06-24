@@ -8,11 +8,13 @@ import com.testback.services.impl.CandidateServiceImp;
 
 import java.util.List;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(value = "CandidateResource", tags = {"Candidates"})
 @RestController
 public class CandidateResource implements CandidateController {
     @Autowired
