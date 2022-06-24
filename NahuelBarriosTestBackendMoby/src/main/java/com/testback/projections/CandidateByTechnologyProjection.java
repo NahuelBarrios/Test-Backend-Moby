@@ -22,9 +22,9 @@ public interface CandidateByTechnologyProjection {
     @Value("#{target.fecha_nacimiento}")
     LocalDate getBirthDate();
 
-    @Value("#target.nombre_tecnologia")
+    @Value("#{target.nombre_tecnologia}")
     String getNameTechnology();
 
-    @Value("#target.experiencia")
+    @Value("#{target.experiencia}")
     String getExperience();
 }
