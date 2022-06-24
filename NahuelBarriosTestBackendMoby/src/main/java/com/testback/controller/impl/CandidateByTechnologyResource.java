@@ -3,6 +3,7 @@ package com.testback.controller.impl;
 import com.testback.controller.CandidateByTechnologyController;
 import com.testback.models.views.CandidateByTechnologyCreateUpdateDto;
 import com.testback.models.views.CandidateByTechnologyDto;
+import com.testback.projections.CandidateByTechnologyProjection;
 import com.testback.services.impl.CandidateByTechnologyServiceImp;
 
 import java.util.List;
@@ -41,5 +42,10 @@ public class CandidateByTechnologyResource implements CandidateByTechnologyContr
     public ResponseEntity<HttpStatus> deleteCandidateByTechnology(Long id) {
         candidateByTechnologyServiceImp.deleteCandidateByTechnology(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<CandidateByTechnologyProjection>> findCandidatesByTechnologies(String name) {
+        return new ResponseEntity<>(candidateByTechnologyServiceImp.findCandidatesByTechnologies(name),HttpStatus.OK);
     }
 }

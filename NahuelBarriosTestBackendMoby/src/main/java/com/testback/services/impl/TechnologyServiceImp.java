@@ -22,6 +22,8 @@ public class TechnologyServiceImp implements TechnologyService {
     @Autowired
     TechnologyRepository technologyRepository;
 
+    private static final String TECHNOLOGY_NOT_FOUND = "No se encontro el Id";
+
     @Override
     @Transactional
     public TechnologyDto createTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate) {
@@ -33,8 +35,10 @@ public class TechnologyServiceImp implements TechnologyService {
     @Override
     @Transactional
     public TechnologyDto updateTechnology(TechnologyDtoCreateUpdate technologyDtoCreateUpdate, Long id) throws TechnologyNotFoundException {
-        Optional<Technology> technologyOptional = Optional.ofNullable(technologyRepository.findById(id)
-                .orElseThrow(() -> new TechnologyNotFoundException("No se encontro el Id")));
+        Optional<Technology> technologyOptional = technologyRepository.findById(id);
+        if(technologyOptional.isEmpty()){
+            throw new TechnologyNotFoundException(TECHNOLOGY_NOT_FOUND);
+        }
         var technology = technologyOptional.get();
         technology.setNameTechnology(technologyDtoCreateUpdate.getNameTechnology());
         return TechnologyMapper.mapModelToDto(technologyRepository.save(technology));
@@ -51,8 +55,10 @@ public class TechnologyServiceImp implements TechnologyService {
     @Override
     @Transactional
     public void deleteTechnology(Long id) throws TechnologyNotFoundException {
-        Optional<Technology> technologyOptional = Optional.ofNullable(technologyRepository.findById(id)
-                .orElseThrow(() -> new TechnologyNotFoundException("No se encontro el Id")));
+        Optional<Technology> technologyOptional = technologyRepository.findById(id);
+        if(technologyOptional.isEmpty()){
+            throw new TechnologyNotFoundException(TECHNOLOGY_NOT_FOUND);
+        }
         technologyRepository.delete(technologyOptional.get());
     }
 }

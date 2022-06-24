@@ -9,6 +9,7 @@ import com.testback.models.entities.CandidateByTechnology;
 import com.testback.models.entities.Technology;
 import com.testback.models.views.CandidateByTechnologyCreateUpdateDto;
 import com.testback.models.views.CandidateByTechnologyDto;
+import com.testback.projections.CandidateByTechnologyProjection;
 import com.testback.repository.CandidateByTechnologyRepository;
 import com.testback.repository.CandidateRepository;
 import com.testback.repository.TechnologyRepository;
@@ -36,12 +37,13 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
     @Override
     @Transactional
     public CandidateByTechnologyDto createCandidateByTechnology(CandidateByTechnologyCreateUpdateDto candidateByTechnologyCreateUpdateDto)
-            throws CandidateNotFoundException, TechnologyNotFoundException, CandidateByTechnologyNotFoundException {
+            throws CandidateNotFoundException, TechnologyNotFoundException {
         Optional<Candidate> optionalCandidate = getOptionalCandidate(candidateByTechnologyCreateUpdateDto);
         Optional<Technology> optionalTechnology = getOptionalTechnology(candidateByTechnologyCreateUpdateDto);
 
         var candidateByTechnology = CandidateByTechnologyMapper.mapCreatingToModel(candidateByTechnologyCreateUpdateDto, optionalTechnology.get(), optionalCandidate.get());
-        return CandidateByTechnologyMapper.mapModelToDto(candidateByTechnologyRepository.save(candidateByTechnology));
+        var ca = candidateByTechnologyRepository.save(candidateByTechnology);
+        return CandidateByTechnologyMapper.mapModelToDto(ca);
     }
 
     @Override
@@ -65,6 +67,11 @@ public class CandidateByTechnologyServiceImp implements CandidateByTechnologySer
         List<CandidateByTechnology> candidateByTechnologies = candidateByTechnologyRepository.findAll();
         return candidateByTechnologies.stream().map(CandidateByTechnologyMapper::mapModelToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CandidateByTechnologyProjection> findCandidatesByTechnologies(String nameTechnology){
+        return candidateByTechnologyRepository.getCandidatesByTechnologies(nameTechnology);
     }
 
     @Override

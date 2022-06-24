@@ -9,6 +9,7 @@ import com.testback.models.views.CandidateByTechnologyDto;
 import java.util.List;
 import javax.validation.Valid;
 
+import com.testback.projections.CandidateByTechnologyProjection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,5 +30,8 @@ public interface CandidateByTechnologyController {
 
     @DeleteMapping("/{id}")
     ResponseEntity<HttpStatus> deleteCandidateByTechnology(@PathVariable Long id) throws CandidateByTechnologyNotFoundException;
+
+    @GetMapping("/search/{name}")
+    ResponseEntity<List<CandidateByTechnologyProjection>> findCandidatesByTechnologies(@PathVariable String name);
 
 }
