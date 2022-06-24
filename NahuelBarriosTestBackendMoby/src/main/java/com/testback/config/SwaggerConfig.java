@@ -28,8 +28,8 @@ public class SwaggerConfig {
     private ApiInfo metaData() {
 
         return new ApiInfoBuilder()
-                .title("Tablero Api doc")
-                .description("Tablero api for MobyDigital.")
+                .title("Test Api Back")
+                .description("Test api for MobyDigital.")
                 .version("0.85")
                 .termsOfServiceUrl("Terms of service")
                 .license("Apache License Version 2.0")
