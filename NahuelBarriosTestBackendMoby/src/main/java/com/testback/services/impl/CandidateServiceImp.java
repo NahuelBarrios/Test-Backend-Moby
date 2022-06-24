@@ -23,6 +23,8 @@ public class CandidateServiceImp implements CandidateService {
     @Autowired
     CandidateRepository candidateRepository;
 
+    private static final String CANDIDATE_NOT_FOUND = "No se encontro el Id";
+
     @Override
     @Transactional
     public CandidateDto createCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate) {
@@ -34,10 +36,9 @@ public class CandidateServiceImp implements CandidateService {
     @Override
     @Transactional
     public CandidateDto updateCandidate(Long id, CandidateDtoCreateUpdate candidateDtoCreateUpdate) throws CandidateNotFoundException {
-        Optional<Candidate> candidateOptional = Optional.ofNullable(candidateRepository.findById(id)
-                .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id")));
+        Optional<Candidate> candidateOptional = candidateRepository.findById(id);
         if (candidateOptional.isEmpty()) {
-            throw new CandidateNotFoundException("No se encontro el Id");
+            throw new CandidateNotFoundException(CANDIDATE_NOT_FOUND);
         }
         var candidate = candidateOptional.get();
         candidate.setName(candidateDtoCreateUpdate.getName());
@@ -59,8 +60,10 @@ public class CandidateServiceImp implements CandidateService {
     @Override
     @Transactional
     public void deleteCandidate(Long id) throws CandidateNotFoundException {
-        Optional<Candidate> candidateOptional = Optional.ofNullable(candidateRepository.findById(id)
-                .orElseThrow(() -> new CandidateNotFoundException("No se encontro el Id")));
+        Optional<Candidate> candidateOptional = candidateRepository.findById(id);
+        if (candidateOptional.isEmpty()) {
+            throw new CandidateNotFoundException(CANDIDATE_NOT_FOUND);
+        }
         candidateRepository.delete(candidateOptional.get());
     }
 }

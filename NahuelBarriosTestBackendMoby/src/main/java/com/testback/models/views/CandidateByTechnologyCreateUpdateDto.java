@@ -14,15 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CandidateByTechnologyCreateUpdateDto {
 
-    @NotNull
-    @Min(1)
     private Long candidateId;
 
-    @NotNull
-    @Min(1)
     private Long technologyId;
 
-    @NotNull
     @NotBlank
     private String experience;
 }
