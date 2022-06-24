@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CandidateResource implements CandidateController {
     @Autowired
     CandidateServiceImp candidateServiceImp;
-
     @Override
     public ResponseEntity<CandidateDto> createCandidate(CandidateDtoCreateUpdate candidateDtoCreateUpdate) {
         return new ResponseEntity<>(candidateServiceImp.createCandidate(candidateDtoCreateUpdate), HttpStatus.CREATED);
